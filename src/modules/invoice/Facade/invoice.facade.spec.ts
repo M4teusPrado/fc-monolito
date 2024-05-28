@@ -65,64 +65,64 @@ describe("Invoice Facade test", () => {
 
         expect(invoice).toBeDefined()
         expect(invoice.name).toBe(input.name)
-        // expect(invoice.document).toBe(input.document)
-        // expect(invoice.street).toBe(input.street)
-        // expect(invoice.number).toBe(input.number)
-        // expect(invoice.complement).toBe(input.complement)
-        // expect(invoice.city).toBe(input.city)
-        // expect(invoice.state).toBe(input.state)
-        // expect(invoice.zipcode).toBe(input.zipCode)
-        //expect(invoice.createdAt).toStrictEqual(invoice.createdAt)
-        //expect(invoice.updatedAt).toStrictEqual(invoice.updatedAt)
-        //expect(invoice.items).toStrictEqual(invoice.items)
+        expect(invoice.document).toBe(input.document)
+        expect(invoice.street).toBe(input.street)
+        expect(invoice.number).toBe(input.number)
+        expect(invoice.complement).toBe(input.complement)
+        expect(invoice.city).toBe(input.city)
+        expect(invoice.state).toBe(input.state)
+        expect(invoice.zipcode).toBe(input.zipCode)
+        expect(invoice.createdAt).toStrictEqual(invoice.createdAt)
+        expect(invoice.updatedAt).toStrictEqual(invoice.updatedAt)
+
 
     })
 
 
-    // it("should find a invoice", async () => {
+    it("should find a invoice", async () => {
             
-    //         const repository = new InvoiceRepository()
-    //         const generateInvoiceUseCase = new GenerateInvoiceUseCase(repository)
-    //         const findInvoiceUseCase = new FindInvoiceUseCase(repository)
-    //         const facade = new InvoiceFacade({
-    //             generateUsecase: generateInvoiceUseCase,
-    //             findUsecase: findInvoiceUseCase
-    //         })
+        const facade = InvoiceFacadeFactory.create();
     
+        const input = {
+            id: "1",
+            name: "Client 1",
+            document: "123456789",
+            street: "Street 1",
+            number: "10",
+            complement: "Complement 1",
+            city: "City 1",
+            state: "State 1",
+            zipCode: "12345678",
+            items: [
+                {
+                    id: "1",
+                    name: "Product 1",
+                    price: 100
+                },
+                {
+                    id: "2",
+                    name: "Product 2",
+                    price: 200
+                }
+            ]
+        };
 
-    //        const input = {
-    //             name: "any_name",
-    //             document: "any_document",
-    //             street: "any_street",
-    //             number: "1",
-    //             complement: "any_complement",
-    //             city: "any_city",
-    //             state: "any_state",
-    //             zipcode: "any_zipCode",
-    //             items: [{
-    //                 name: "any_name",
-    //                 price: 1
-    //             }]
-    //        }
+        await facade.generateInvoice(input)
+        
+
+        const e = {
+            id: "1"
+        }
 
 
-    //         await facade.generateInvoice(input);
+        const result = await facade.findInvoice(e)
 
-    //         const invoice = await InvoiceModel.findOne({ where: { id: "1" } })
+        expect(result).toBeDefined()
+        expect(result.id).toBe("1")
+        expect(result.name).toBe(input.name)
+        expect(result.document).toBe(input.document)
+       
     
-    //         expect(invoice).toBeDefined()
-    //         // expect(invoice.id).toBe(input.id)
-    //         expect(invoice.name).toBe(input.name)
-    //         expect(invoice.document).toBe(input.document)
-    //         expect(invoice.street).toBe(input.street)
-    //         expect(invoice.number).toBe(input.number)
-    //         expect(invoice.complement).toBe(input.complement)
-    //         expect(invoice.city).toBe(input.city)
-    //         expect(invoice.state).toBe(input.state)
-    //         //expect(invoice.address.zipCode).toBe(input.zipCode)
-    //         //expect(invoice.createdAt).toStrictEqual(invoice.createdAt)
-    //         //expect(invoice.updatedAt).toStrictEqual(invoice.updatedAt)
-    //         //expect(invoice.items).toStrictEqual(invoice.items)
     
-    //     })
+    })
 });

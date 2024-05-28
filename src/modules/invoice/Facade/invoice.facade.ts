@@ -17,7 +17,6 @@ export default class InvoiceFacade implements InvoiceFacadeInterface {
     }
 
     async generateInvoice(input: GenerateInvoiceFacadeInputDto): Promise<void> {
-        console.log(input)
         await this._generateUsecase.execute(input);
     }
     async findInvoice(input: FindInvoiceFacadeInputDto): Promise<FindInvoiceFacadeOutputDto> {

@@ -16,6 +16,9 @@ export default class InvoiceRepository implements InvoiceGateway {
             throw new Error(`Invoice with id ${id} not found`);
         }
 
+
+        console.log(invoice)
+
         return new Invoice({
             id: new Id(invoice.id),
             name: invoice.name,
@@ -37,8 +40,6 @@ export default class InvoiceRepository implements InvoiceGateway {
         
     }
     async generate(invoice: Invoice): Promise<void> {
-
-        console.log(invoice.id.id)
 
         await InvoiceModel.create({
             id: invoice.id.id,
