@@ -29,6 +29,7 @@ export default class GenerateInvoiceUseCase {
                 input.zipCode,
             ),
             items: input.items.map(item => new InvoiceItems({
+                idInvoice: new Id(input.id),
                 name: item.name,
                 price: item.price
             }))

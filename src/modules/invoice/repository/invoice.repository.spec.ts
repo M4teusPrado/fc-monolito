@@ -5,6 +5,7 @@ import Id from "../../@shared/domain/value-object/id.value-object"
 import Address from "../../@shared/domain/value-object/address"
 import InvoiceItems from "../domain/Invoice-items.entity"
 import InvoiceRepository from "./invoice.repository"
+import { InvoiceItemsModel } from "./invoice-items.model"
 
 
 describe("Invoice Repository test", () => {
@@ -19,7 +20,7 @@ describe("Invoice Repository test", () => {
         sync: { force: true }
       })
   
-      sequelize.addModels([InvoiceModel])
+      sequelize.addModels([InvoiceModel, InvoiceItemsModel])
       await sequelize.sync()
     })
 
@@ -42,17 +43,20 @@ describe("Invoice Repository test", () => {
                 "any_zipCode",
             ),
             items: [new InvoiceItems({
+                idInvoice: new Id("1"),
                 name: "any_name",
                 price: 1
             })]
         };
 
         const invoice = new Invoice(props);
-
         const repository = new InvoiceRepository();
         await repository.generate(invoice);
 
-        const invoiceDb = await InvoiceModel.findOne({ where: { id: "1" } });
+        const invoiceDb = await InvoiceModel.findOne({ 
+            where: { id: "1" }, 
+            include: [InvoiceItemsModel],
+        });
 
         expect(invoiceDb).toBeDefined();
         expect(invoiceDb.id).toEqual(invoice.id.id);
@@ -63,10 +67,12 @@ describe("Invoice Repository test", () => {
         expect(invoiceDb.complement).toEqual(invoice.address.complement);   
         expect(invoiceDb.city).toEqual(invoice.address.city);
         expect(invoiceDb.state).toEqual(invoice.address.state);
-        //expect(invoiceDb.zipcode).toEqual(invoice.address.zipCode);
-        //expect(invoiceDb.createdAt).toStrictEqual(invoice.createdAt);
-        //expect(invoiceDb.updatedAt).toStrictEqual(invoice.updatedAt);
-        
+        expect(invoiceDb.zipcode).toEqual(invoice.address.zipCode);
+        expect(invoiceDb.createdAt).toStrictEqual(invoice.createdAt);
+        expect(invoiceDb.updatedAt).toStrictEqual(invoice.updatedAt);
+        //expect(invoiceDb.items.length).toEqual(1);
+        expect(invoiceDb.items[0].name).toEqual(invoice.items[0].name);
+        expect(invoiceDb.items[0].price).toEqual(invoice.items[0].price);
     });
     
 

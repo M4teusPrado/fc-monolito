@@ -26,6 +26,7 @@ async execute(input: FindInvoiceUseCaseInputDTO): Promise<FindInvoiceUseCaseOutp
         ),
         items: invoice.items.map(item => ({
             id: item.id.id,
+            idInvoice: invoice.id.id,
             name: item.name,
             price: item.price
         })),

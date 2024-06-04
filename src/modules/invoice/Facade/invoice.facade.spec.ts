@@ -6,6 +6,8 @@ import FindInvoiceUseCase from "../usecase/find-invoice/find-invoice.usecase";
 import InvoiceFacade from "./invoice.facade";
 import { GenerateInvoiceFacadeInputDto } from "./invoice.facade.interface";
 import InvoiceFacadeFactory from "../factory/facade.factory";
+import Invoice from "../domain/invoice.entity";
+import { InvoiceItemsModel } from "../repository/invoice-items.model";
 
 
 describe("Invoice Facade test", () => {
@@ -20,7 +22,7 @@ describe("Invoice Facade test", () => {
         sync: { force: true }
     })
 
-    sequelize.addModels([InvoiceModel])
+    sequelize.addModels([InvoiceModel, InvoiceItemsModel])
         await sequelize.sync()
     })
 
@@ -61,7 +63,7 @@ describe("Invoice Facade test", () => {
 
         const invoice = await InvoiceModel.findOne({ where: { id: "1" } })
 
-        console.log(invoice)
+       // console.log(invoice)
 
         expect(invoice).toBeDefined()
         expect(invoice.name).toBe(input.name)

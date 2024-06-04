@@ -16,6 +16,7 @@ export interface FindInvoiceUseCaseInputDTO {
     };
     items: {
       id: string;
+      idInvoice: string;
       name: string;
       price: number;
     }[];
