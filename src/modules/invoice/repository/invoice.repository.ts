@@ -58,15 +58,18 @@ export default class InvoiceRepository implements InvoiceGateway {
             state: invoice.address.state,
             zipcode: invoice.address.zipCode,
             total: invoice.total,
-            createdAt: invoice.createdAt,
-            updatedAt: invoice.updatedAt,
-            
-            items: invoice.items.map(item => ({
+            items: invoice.items.map((item) => ({
                 id: item.id.id,
                 invoiceId: item.idInvoice.id,
                 name: item.name,
                 price: item.price
-            }))
-        })
+            })),
+            createdAt: invoice.createdAt,
+            updatedAt: invoice.updatedAt
+        },
+            {
+                include: ["items"]
+            }
+        )
     }
 }
